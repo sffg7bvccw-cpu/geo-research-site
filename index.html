@@ -865,10 +865,12 @@ button { border: none; cursor: pointer; font-family: inherit; }
 .footer-links a:hover { color: var(--primary); }
 .footer-copy { font-size: 12px; color: var(--text-light); }
 
-/* ===== Scroll Progress ===== */
+/* Enhanced scroll progress */
 .scroll-progress {
   position: fixed; top: 0; left: 0; height: 3px; z-index: 200;
-  background: var(--gradient); width: 0%; transition: width 0.1s;
+  background: linear-gradient(90deg, #4F46E5, #7C3AED, #A855F7);
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
+  width: 0%; transition: width 0.1s linear;
 }
 
 /* ===== Back to Top ===== */
@@ -884,6 +886,134 @@ button { border: none; cursor: pointer; font-family: inherit; }
 .back-to-top:hover { background: var(--primary); color: #fff; border-color: var(--primary); }
 .back-to-top:active { transform: scale(0.92); }
 
+/* ===== Interactive Effects ===== */
+
+/* Spotlight/glow effect on cards */
+.value-card, .pricing-card, .about-card, .how-card {
+  position: relative;
+  overflow: hidden;
+}
+.value-card::after, .pricing-card::after, .about-card::after, .how-card::after {
+  content: '';
+  position: absolute;
+  top: var(--mouse-y, 50%);
+  left: var(--mouse-x, 50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(99, 102, 241, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.value-card:hover::after, .pricing-card:hover::after, .about-card:hover::after, .how-card:hover::after {
+  opacity: 1;
+}
+
+/* Enhanced counter animation */
+.hero-stat-num, .result-num {
+  transition: text-shadow 0.5s ease;
+}
+.hero-stat-num.counted, .result-num.counted {
+  text-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+}
+
+/* Section entrance animations - more variety */
+.section-title {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.section-title.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Stagger children animation */
+.value-grid > *, .pricing-grid > *, .about-grid > *, .how-cards > * {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
+}
+.value-grid.visible > *, .pricing-grid.visible > *, .about-grid.visible > *, .how-cards.visible > * {
+  opacity: 1;
+  transform: translateY(0);
+}
+.value-grid.visible > *:nth-child(1), .pricing-grid.visible > *:nth-child(1), .about-grid.visible > *:nth-child(1), .how-cards.visible > *:nth-child(1) { transition-delay: 0s; }
+.value-grid.visible > *:nth-child(2), .pricing-grid.visible > *:nth-child(2), .about-grid.visible > *:nth-child(2), .how-cards.visible > *:nth-child(2) { transition-delay: 0.1s; }
+.value-grid.visible > *:nth-child(3), .pricing-grid.visible > *:nth-child(3), .about-grid.visible > *:nth-child(3), .how-cards.visible > *:nth-child(3) { transition-delay: 0.2s; }
+.value-grid.visible > *:nth-child(4), .pricing-grid.visible > *:nth-child(4), .about-grid.visible > *:nth-child(4), .how-cards.visible > *:nth-child(4) { transition-delay: 0.3s; }
+.value-grid.visible > *:nth-child(5), .pricing-grid.visible > *:nth-child(5) { transition-delay: 0.4s; }
+.value-grid.visible > *:nth-child(6) { transition-delay: 0.5s; }
+
+/* Animated gradient border on CTA */
+.cta-btn-douyin {
+  position: relative;
+  z-index: 1;
+}
+.cta-btn-douyin::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, #25F4EE, #FE2C55, #4F46E5, #25F4EE);
+  background-size: 300% 300%;
+  animation: gradient-border 3s ease infinite;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.cta-btn-douyin:hover::before {
+  opacity: 1;
+}
+@keyframes gradient-border {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Pricing badge shimmer */
+.pricing-badge {
+  position: relative;
+  overflow: hidden;
+}
+.pricing-badge::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+  animation: shimmer 2.5s infinite;
+}
+@keyframes shimmer {
+  0% { left: -100%; }
+  100% { left: 100%; }
+}
+
+/* Timeline dot pulse */
+.case-day {
+  position: relative;
+}
+.case-day::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: -8px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--primary);
+  transform: translateY(-50%);
+  animation: dot-pulse 2s ease-in-out infinite;
+}
+@keyframes dot-pulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.4); }
+  50% { box-shadow: 0 0 0 8px rgba(79, 70, 229, 0); }
+}
+
 /* ===== Mobile Fine-tuning ===== */
 @media (max-width: 640px) {
   :root { --section-padding: 56px 20px; }
@@ -898,89 +1028,6 @@ button { border: none; cursor: pointer; font-family: inherit; }
   .how-card { padding: 24px 20px; }
 }
 
-/* ===== Brand AI Visibility Checker ===== */
-.checker-section { padding: var(--section-padding); background: #fff; position: relative; }
-.checker-section::before {
-  content: ''; position: absolute; inset: 0;
-  background: var(--gradient-soft); opacity: 0.4; pointer-events: none;
-}
-.checker-section .container { position: relative; z-index: 1; text-align: center; }
-.checker-form {
-  display: flex; gap: 12px; max-width: 680px; margin: 32px auto 0;
-  flex-wrap: wrap; justify-content: center;
-}
-.checker-input, .checker-select {
-  flex: 1; min-width: 180px; padding: 14px 18px; border-radius: var(--radius-sm);
-  border: 1.5px solid var(--border); font-size: 15px; font-family: inherit;
-  background: #fff; color: var(--text); transition: border-color 0.2s, box-shadow 0.2s;
-  outline: none;
-}
-.checker-input:focus, .checker-select:focus {
-  border-color: var(--primary); box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
-}
-.checker-input::placeholder { color: var(--text-light); }
-.checker-btn {
-  padding: 14px 32px; border-radius: var(--radius-sm); background: var(--gradient);
-  color: #fff; font-size: 16px; font-weight: 700; border: none; cursor: pointer;
-  transition: transform 0.2s, box-shadow 0.2s; white-space: nowrap;
-  box-shadow: 0 4px 20px rgba(79, 70, 229, 0.25);
-}
-.checker-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(79, 70, 229, 0.35); }
-.checker-btn:active { transform: translateY(0) scale(0.98); }
-.check-result {
-  max-width: 680px; margin: 32px auto 0; text-align: left;
-}
-.check-loading { text-align: center; padding: 40px 20px; }
-.check-spinner {
-  width: 40px; height: 40px; border: 3px solid var(--border);
-  border-top-color: var(--primary); border-radius: 50%;
-  animation: spin 0.8s linear infinite; margin: 0 auto 16px;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-.check-loading p { font-size: 15px; color: var(--text-secondary); }
-.check-report {
-  background: var(--card); border: 1px solid var(--border);
-  border-radius: var(--radius); padding: 32px 28px; box-shadow: var(--shadow);
-}
-.check-score { text-align: center; margin-bottom: 24px; }
-.check-score-num {
-  font-size: 48px; font-weight: 900; line-height: 1;
-  background: var(--gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.check-score-label { font-size: 14px; color: var(--text-secondary); margin-top: 8px; }
-.check-platforms {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 24px;
-}
-.check-platform {
-  padding: 16px; border-radius: var(--radius-sm); text-align: center;
-  border: 1px solid var(--border); transition: all 0.3s;
-}
-.check-platform.found { background: rgba(34, 197, 94, 0.06); border-color: rgba(34, 197, 94, 0.2); }
-.check-platform.missing { background: rgba(239, 68, 68, 0.04); border-color: rgba(239, 68, 68, 0.15); }
-.check-platform-name { font-size: 14px; font-weight: 700; margin-bottom: 6px; }
-.check-platform-status { font-size: 13px; color: var(--text-secondary); }
-.check-platform.found .check-platform-status { color: #16a34a; font-weight: 600; }
-.check-platform.missing .check-platform-status { color: #dc2626; }
-.check-verdict {
-  padding: 16px 20px; border-radius: var(--radius-sm); margin-bottom: 24px;
-}
-.check-verdict-bad {
-  background: rgba(239, 68, 68, 0.06); border-left: 3px solid #ef4444;
-  color: #b91c1c; font-size: 14px; line-height: 1.8; padding: 16px 20px;
-  border-radius: var(--radius-sm);
-}
-.check-verdict-ok {
-  background: rgba(34, 197, 94, 0.06); border-left: 3px solid #22c55e;
-  color: #15803d; font-size: 14px; line-height: 1.8; padding: 16px 20px;
-  border-radius: var(--radius-sm);
-}
-.check-cta { text-align: center; }
-@media (max-width: 540px) {
-  .check-platforms { grid-template-columns: repeat(2, 1fr); }
-  .checker-form { flex-direction: column; }
-  .checker-input, .checker-select, .checker-btn { min-width: 100%; }
-}
 
 /* ===== GEO vs Traditional Marketing Comparison ===== */
 .comparison-section { padding: var(--section-padding); background: var(--bg); }
@@ -1192,6 +1239,44 @@ button { border: none; cursor: pointer; font-family: inherit; }
 }
 .about-title { font-size: 17px; font-weight: 700; margin-bottom: 8px; }
 .about-desc { font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
+
+/* ===== Particle Canvas ===== */
+#particleCanvas {
+  position: absolute; inset: 0; z-index: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+}
+
+/* ===== Gradient Mesh Backgrounds ===== */
+@keyframes mesh-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+.demo-section,
+.comparison-section,
+.pricing-section {
+  position: relative;
+}
+.demo-section::before,
+.comparison-section::before,
+.pricing-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(79,70,229,0.03) 0%, rgba(124,58,237,0.02) 25%, rgba(168,85,247,0.03) 50%, rgba(79,70,229,0.02) 75%, rgba(124,58,237,0.03) 100%);
+  background-size: 400% 400%;
+  animation: mesh-shift 15s ease infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+.demo-section .container,
+.comparison-section .container,
+.pricing-section .container {
+  position: relative;
+  z-index: 1;
+}
 </style>
 <noscript><style>.fade-up{opacity:1!important;transform:none!important}.result-bar-fill{width:auto!important}.demo-response{opacity:1!important}</style></noscript>
 </head>
@@ -1215,7 +1300,6 @@ button { border: none; cursor: pointer; font-family: inherit; }
     </button>
     <div class="nav-links" id="navLinks">
       <a href="#demo">效果演示</a>
-      <a href="#checker">免费检测</a>
       <a href="#how">工作原理</a>
       <a href="#results">数据效果</a>
       <a href="#process">合作流程</a>
@@ -1223,13 +1307,14 @@ button { border: none; cursor: pointer; font-family: inherit; }
       <a href="#testimonials">客户评价</a>
       <a href="#faq">常见问题</a>
     </div>
-    <a href="#cta" class="nav-cta">免费诊断</a>
+    <a href="#cta" class="nav-cta">关注直播</a>
   </div>
 </nav>
 
 <main>
 <!-- Hero -->
 <section class="hero" id="hero">
+  <canvas id="particleCanvas"></canvas>
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="hero-orb hero-orb-1"></div>
@@ -1279,36 +1364,6 @@ button { border: none; cursor: pointer; font-family: inherit; }
   </div>
 </section>
 
-<!-- Brand AI Visibility Checker -->
-<section class="checker-section" id="checker">
-  <div class="container">
-    <div class="section-label fade-up">免费检测</div>
-    <h2 class="section-title fade-up">你的品牌在AI眼里<span class="gradient-text">是隐形的吗？</span></h2>
-    <p class="section-desc fade-up" style="margin:0 auto;">输入品牌名和行业，立刻查看AI对你品牌的认知程度</p>
-    <div class="checker-form fade-up">
-      <input type="text" id="brandInput" placeholder="输入你的品牌名称" class="checker-input">
-      <select id="industrySelect" class="checker-select">
-        <option value="">选择你的行业</option>
-        <option value="白酒/茶饮">白酒/茶饮</option>
-        <option value="教育培训">教育培训</option>
-        <option value="医疗健康">医疗健康</option>
-        <option value="旅游酒店">旅游酒店</option>
-        <option value="电商零售">电商零售</option>
-        <option value="餐饮美食">餐饮美食</option>
-        <option value="房产家居">房产家居</option>
-        <option value="美容医美">美容医美</option>
-        <option value="法律服务">法律服务</option>
-        <option value="金融保险">金融保险</option>
-      </select>
-      <button id="checkBtn" class="checker-btn" onclick="runBrandCheck()">
-        <span class="checker-btn-text">立即检测</span>
-      </button>
-    </div>
-    <div id="checkResult" class="check-result" style="display:none">
-      <!-- Result will be injected here -->
-    </div>
-  </div>
-</section>
 
 <!-- Interactive Demo -->
 <section class="demo-section" id="demo">
@@ -2003,7 +2058,6 @@ button { border: none; cursor: pointer; font-family: inherit; }
     <div class="footer-desc">让每一个好品牌，都被AI看见和推荐</div>
     <div class="footer-links">
       <a href="#demo">效果演示</a>
-      <a href="#checker">免费检测</a>
       <a href="#how">工作原理</a>
       <a href="#results">数据效果</a>
       <a href="#case">真实案例</a>
@@ -2351,53 +2405,151 @@ document.addEventListener('click', function(e) {
   }
 });
 
-// ===== Brand AI Visibility Checker =====
-function runBrandCheck() {
-  var brand = document.getElementById('brandInput').value.trim();
-  var industry = document.getElementById('industrySelect').value;
-  if (!brand || !industry) { alert('请填写品牌名和选择行业'); return; }
+// ===== Particle Canvas System =====
+(function() {
+  var canvas = document.getElementById('particleCanvas');
+  if (!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var w, h, particles = [], mouse = { x: -1000, y: -1000 };
 
-  var resultDiv = document.getElementById('checkResult');
-  resultDiv.style.display = 'block';
-  resultDiv.innerHTML = '<div class="check-loading"><div class="check-spinner"></div><p>正在检测 <strong>' + brand + '</strong> 在6大AI平台的可见性...</p></div>';
+  function resize() {
+    var hero = canvas.parentElement;
+    w = canvas.width = hero.offsetWidth;
+    h = canvas.height = hero.offsetHeight;
+  }
 
-  // Simulate loading delay
-  setTimeout(function() {
-    // Generate simulated results
-    var score = Math.floor(Math.random() * 3); // 0-2 out of 6 (most brands score low)
-    var platforms = ['豆包', 'ChatGPT', 'Kimi', '通义千问', '文心一言', '智谱清言'];
-    var results = platforms.map(function(p, i) {
-      return {
-        name: p,
-        found: i < score,
-        position: i < score ? Math.floor(Math.random() * 5) + 3 : '未出现'
-      };
-    });
-
-    var html = '<div class="check-report">';
-    html += '<div class="check-score"><div class="check-score-num">' + score + '/6</div><div class="check-score-label">AI平台可见性评分</div></div>';
-    html += '<div class="check-platforms">';
-    results.forEach(function(r) {
-      html += '<div class="check-platform ' + (r.found ? 'found' : 'missing') + '">';
-      html += '<div class="check-platform-name">' + r.name + '</div>';
-      html += '<div class="check-platform-status">' + (r.found ? '第' + r.position + '位' : '❌ 未出现') + '</div>';
-      html += '</div>';
-    });
-    html += '</div>';
-    html += '<div class="check-verdict">';
-    if (score <= 1) {
-      html += '<div class="check-verdict-bad">⚠️ 你的品牌"' + brand + '"在AI领域几乎是隐形的。当客户向AI咨询' + industry + '相关推荐时，AI不会提到你——你的客户正在被推荐给你的竞争对手。</div>';
-    } else {
-      html += '<div class="check-verdict-ok">你的品牌有一定可见度，但还有很大提升空间。通过GEO优化，可以让你的品牌在全部6个平台都获得推荐。</div>';
+  function createParticles() {
+    particles = [];
+    var count = Math.min(80, Math.floor(w * h / 15000));
+    for (var i = 0; i < count; i++) {
+      particles.push({
+        x: Math.random() * w, y: Math.random() * h,
+        vx: (Math.random() - 0.5) * 0.3, vy: (Math.random() - 0.5) * 0.3,
+        r: Math.random() * 2 + 1,
+        color: 'hsla(' + (240 + Math.random() * 40) + ', 70%, 65%, ' + (0.15 + Math.random() * 0.2) + ')'
+      });
     }
-    html += '</div>';
-    html += '<div class="check-cta"><a href="#cta" class="btn-primary">获取完整诊断报告 →</a></div>';
-    html += '</div>';
+  }
 
-    resultDiv.innerHTML = html;
-    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  }, 2500);
-}
+  function draw() {
+    ctx.clearRect(0, 0, w, h);
+    for (var i = 0; i < particles.length; i++) {
+      var p = particles[i];
+      // Mouse repulsion
+      var dx = p.x - mouse.x, dy = p.y - mouse.y;
+      var dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 120) {
+        p.vx += dx / dist * 0.2;
+        p.vy += dy / dist * 0.2;
+      }
+      p.vx *= 0.99; p.vy *= 0.99;
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0 || p.x > w) p.vx *= -1;
+      if (p.y < 0 || p.y > h) p.vy *= -1;
+
+      // Draw particle
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = p.color;
+      ctx.fill();
+
+      // Connect nearby particles
+      for (var j = i + 1; j < particles.length; j++) {
+        var p2 = particles[j];
+        var d = Math.sqrt((p.x - p2.x) * (p.x - p2.x) + (p.y - p2.y) * (p.y - p2.y));
+        if (d < 150) {
+          ctx.beginPath();
+          ctx.moveTo(p.x, p.y);
+          ctx.lineTo(p2.x, p2.y);
+          ctx.strokeStyle = 'rgba(99, 102, 241, ' + (0.08 * (1 - d / 150)) + ')';
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      }
+    }
+    requestAnimationFrame(draw);
+  }
+
+  canvas.parentElement.addEventListener('mousemove', function(e) {
+    var rect = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left;
+    mouse.y = e.clientY - rect.top;
+  });
+
+  resize();
+  createParticles();
+  draw();
+  window.addEventListener('resize', function() { resize(); createParticles(); });
+})();
+
+// 3D Card Tilt Effect
+(function() {
+  var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  if (isTouchDevice) return;
+  var tiltCards = document.querySelectorAll('.value-card, .pricing-card, .about-card, .how-card, .case-item');
+  tiltCards.forEach(function(card) {
+    card.style.transformStyle = 'preserve-3d';
+    card.style.transition = 'transform 0.3s ease';
+
+    card.addEventListener('mousemove', function(e) {
+      var rect = card.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+      var centerX = rect.width / 2;
+      var centerY = rect.height / 2;
+      var rotateX = (y - centerY) / centerY * -4;
+      var rotateY = (x - centerX) / centerX * 4;
+      card.style.transform = 'perspective(800px) rotateX(' + rotateX + 'deg) rotateY(' + rotateY + 'deg) scale(1.02)';
+    });
+
+    card.addEventListener('mouseleave', function() {
+      card.style.transform = 'perspective(800px) rotateX(0) rotateY(0) scale(1)';
+    });
+  });
+})();
+
+// Spotlight glow effect
+(function() {
+  var glowCards = document.querySelectorAll('.value-card, .pricing-card, .about-card, .how-card');
+  glowCards.forEach(function(card) {
+    card.addEventListener('mousemove', function(e) {
+      var rect = card.getBoundingClientRect();
+      card.style.setProperty('--mouse-x', (e.clientX - rect.left) + 'px');
+      card.style.setProperty('--mouse-y', (e.clientY - rect.top) + 'px');
+    });
+  });
+})();
+
+// Grid stagger animation
+(function() {
+  var gridObserver = new IntersectionObserver(function(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        // Also mark section titles as visible
+        var section = entry.target.closest('section');
+        if (section) {
+          var title = section.querySelector('.section-title');
+          if (title) title.classList.add('visible');
+        }
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.value-grid, .pricing-grid, .about-grid, .how-cards, .vs-table').forEach(function(grid) {
+    gridObserver.observe(grid);
+  });
+
+  // Also observe section titles directly
+  document.querySelectorAll('.section-title').forEach(function(title) {
+    var titleObserver = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+      });
+    }, { threshold: 0.3 });
+    titleObserver.observe(title);
+  });
+})();
 </script>
 </body>
 </html>
