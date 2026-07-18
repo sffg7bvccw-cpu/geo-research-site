@@ -146,17 +146,16 @@ button { border: none; cursor: pointer; font-family: inherit; }
 .nav-hamburger.open span:nth-child(2) { opacity: 0; }
 .nav-hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(5px, -5px); }
 @media (min-width: 768px) { .nav-hamburger { display: none; } }
-.nav-links.mobile-open {
-  display: flex; flex-direction: column; position: absolute;
-  top: 100%; left: 0; right: 0; background: rgba(255,255,255,0.98);
+.nav-links.open {
+  display: flex; flex-direction: column; position: fixed;
+  top: 60px; left: 0; right: 0; background: rgba(255,255,255,0.98);
   backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
-  padding: 16px 24px 24px; gap: 0; border-bottom: 1px solid var(--border);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+  padding: 20px; gap: 16px; z-index: 99;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
-.nav-links.mobile-open a {
-  padding: 14px 0; border-bottom: 1px solid var(--border); font-size: 16px;
+.nav-links.open a {
+  padding: 8px 0; font-size: 16px;
 }
-.nav-links.mobile-open a:last-child { border-bottom: none; }
 
 @media (min-width: 768px) { .nav-links { display: flex; } }
 
@@ -790,6 +789,7 @@ button { border: none; cursor: pointer; font-family: inherit; }
   color: #fff; font-size: 17px; font-weight: 700;
   box-shadow: 0 4px 24px rgba(254, 44, 85, 0.25);
   transition: transform 0.2s, box-shadow 0.2s;
+  border: none; cursor: pointer;
 }
 .cta-btn-douyin:hover { transform: translateY(-2px); box-shadow: 0 8px 32px rgba(254, 44, 85, 0.35); }
 .cta-btn-douyin:active { transform: translateY(0) scale(0.98); }
@@ -1066,6 +1066,111 @@ button { border: none; cursor: pointer; font-family: inherit; }
   .doubao-window { overflow-x: hidden; }
   .doubao-chat { padding: 16px 12px; }
   .demo-toggle { flex-wrap: wrap; }
+
+  /* Hero section fixes */
+  .hero h1 { font-size: 28px; line-height: 1.3; }
+  .hero-sub { font-size: 15px; line-height: 1.7; }
+  .hero-inner { gap: 24px; }
+  .hero-illust-col { display: flex; justify-content: center; }
+  .hero-illustration { max-width: 280px; width: 100%; }
+
+  /* Demo section - ensure chat text is readable */
+  .demo-question-bubble { font-size: 14px; padding: 10px 14px; max-width: 90%; }
+  .demo-response-text { font-size: 13px; line-height: 1.7; }
+  .demo-annotation { font-size: 13px; padding: 10px 12px; }
+  .demo-tabs { gap: 6px; padding-bottom: 12px; }
+  .demo-tab { padding: 6px 14px; font-size: 13px; }
+
+  /* How section - cards */
+  .how-cards { gap: 12px; }
+  .how-card-desc { font-size: 14px; line-height: 1.7; }
+
+  /* VS table - make it more usable */
+  .vs-table {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -20px;
+    padding: 0 20px;
+  }
+  .vs-table::after {
+    content: '\2190 \5DE6\53F3\6ED1\52A8\67E5\770B \2192';
+    display: block;
+    text-align: center;
+    font-size: 12px;
+    color: var(--text-light);
+    padding: 8px 0;
+  }
+
+  /* Results section */
+  .results-grid { gap: 12px; }
+  .result-num { font-size: 24px; }
+  .result-label { font-size: 12px; }
+  .result-context { font-size: 12px; }
+  .result-card-wide { grid-column: span 2; }
+
+  /* Case study timeline */
+  .case-timeline { gap: 16px; }
+  .case-item { padding-left: 20px; }
+  .case-title { font-size: 15px; }
+  .case-desc { font-size: 13px; line-height: 1.6; }
+  .case-stat { font-size: 12px; }
+  .case-quote blockquote { font-size: 14px; }
+
+  /* Process steps */
+  .process-step-desc { font-size: 14px; }
+
+  /* Pricing */
+  .pricing-features li { font-size: 14px; }
+  .pricing-btn { width: 100%; text-align: center; display: block; }
+
+  /* Testimonials */
+  .testimonial-text { font-size: 14px; }
+  .testimonial-card { min-width: 260px; padding: 20px 16px; }
+
+  /* About */
+  .about-desc { font-size: 14px; }
+
+  /* FAQ */
+  .faq-question { font-size: 15px; padding: 16px 0; }
+  .faq-answer-inner { font-size: 14px; }
+
+  /* CTA section */
+  .cta-card { padding: 32px 20px; }
+  .cta-title { font-size: 22px; }
+  .cta-desc { font-size: 14px; }
+  .cta-btn-douyin { padding: 14px 32px; font-size: 16px; width: 100%; justify-content: center; }
+  .cta-qr-img { width: 140px; height: 140px; }
+  .cta-features { gap: 12px; }
+  .cta-feature { font-size: 13px; }
+
+  /* Nav - ensure hamburger works */
+  .nav-links {
+    display: none;
+    position: fixed;
+    top: 60px;
+    left: 0;
+    right: 0;
+    background: rgba(255,255,255,0.98);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    flex-direction: column;
+    padding: 20px;
+    gap: 16px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    z-index: 99;
+  }
+  .nav-links.open { display: flex; }
+  .nav-links a { font-size: 16px; padding: 8px 0; }
+
+  /* Section dots hidden on mobile */
+  .section-dots { display: none; }
+
+  /* Back to top button */
+  .back-to-top { bottom: 20px; right: 16px; width: 40px; height: 40px; }
+
+  /* Prevent any horizontal overflow */
+  body { overflow-x: hidden; }
+  .container { overflow-x: visible; }
 }
 
 /* Section navigation dots */
@@ -2053,10 +2158,10 @@ button { border: none; cursor: pointer; font-family: inherit; }
         在抖音搜索"GEO研究社"关注我们。直播间里我会当场演示——用你的品牌名去问AI，看看AI怎么说。
       </p>
       <div class="cta-actions">
-        <a href="https://v.douyin.com/eHSYkew1FaI/" target="_blank" rel="noopener" class="cta-btn-douyin">
+        <button onclick="openDouyin()" class="cta-btn-douyin">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 0010.86 4.46V13a8.28 8.28 0 005.58 2.16V11.7a4.83 4.83 0 01-3.59-1.42V6.69h3.59z"/></svg>
           打开抖音关注
-        </a>
+        </button>
         <span class="cta-sub">在抖音搜索「GEO研究社」关注我们，直播间里我会当场演示——用你的品牌名去问AI，看看AI怎么说。</span>
       </div>
       <div class="cta-contact-alt">
@@ -2524,33 +2629,37 @@ window.addEventListener('load', function() {
 });
 
 // ===== Mobile Hamburger Menu =====
-var navHamburger = document.getElementById('navHamburger');
-var navLinks = document.getElementById('navLinks');
+(function() {
+  var hamburger = document.getElementById('navHamburger');
+  var navLinksEl = document.getElementById('navLinks');
+  if (!hamburger || !navLinksEl) return;
 
-navHamburger.addEventListener('click', function() {
-  navHamburger.classList.toggle('open');
-  navLinks.classList.toggle('mobile-open');
-  var isOpen = navHamburger.classList.contains('open');
-  navHamburger.setAttribute('aria-label', isOpen ? '关闭导航菜单' : '打开导航菜单');
-});
+  hamburger.addEventListener('click', function(e) {
+    e.stopPropagation();
+    hamburger.classList.toggle('open');
+    navLinksEl.classList.toggle('open');
+    var isOpen = hamburger.classList.contains('open');
+    hamburger.setAttribute('aria-label', isOpen ? '关闭导航菜单' : '打开导航菜单');
+  });
 
-// Close mobile menu when clicking a link
-navLinks.addEventListener('click', function(e) {
-  if (e.target.tagName === 'A') {
-    navHamburger.classList.remove('open');
-    navLinks.classList.remove('mobile-open');
-    navHamburger.setAttribute('aria-label', '打开导航菜单');
-  }
-});
+  // Close menu when clicking a link
+  navLinksEl.querySelectorAll('a').forEach(function(link) {
+    link.addEventListener('click', function() {
+      navLinksEl.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-label', '打开导航菜单');
+    });
+  });
 
-// Close mobile menu when clicking outside
-document.addEventListener('click', function(e) {
-  if (!navHamburger.contains(e.target) && !navLinks.contains(e.target)) {
-    navHamburger.classList.remove('open');
-    navLinks.classList.remove('mobile-open');
-    navHamburger.setAttribute('aria-label', '打开导航菜单');
-  }
-});
+  // Close menu when clicking outside
+  document.addEventListener('click', function(e) {
+    if (!navLinksEl.contains(e.target) && !hamburger.contains(e.target)) {
+      navLinksEl.classList.remove('open');
+      hamburger.classList.remove('open');
+      hamburger.setAttribute('aria-label', '打开导航菜单');
+    }
+  });
+})();
 
 // ===== Particle Canvas System =====
 (function() {
@@ -2767,6 +2876,60 @@ document.addEventListener('click', function(e) {
     });
   });
 })();
+
+// Open Douyin app - try deep link first, fallback to web URL
+function openDouyin() {
+  var secUid = 'MS4wLjABAAAAPmZvu728CXqTHpisAlq6VOlldADuMwR65RjfRjOrRR8';
+  var webUrl = 'https://v.douyin.com/eHSYkew1FaI/';
+  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+
+  if (isMobile) {
+    // Try Douyin app deep link schemes
+    var schemes = [
+      'snssdk1128://user/profile/' + secUid,
+      'aweme://user/profile/' + secUid,
+      'bytedance://user/profile/' + secUid
+    ];
+
+    // Create hidden iframe to try deep link
+    var iframe = document.createElement('iframe');
+    iframe.style.display = 'none';
+    iframe.src = schemes[0];
+    document.body.appendChild(iframe);
+
+    // Set timeout: if app doesn't open in 1.5s, try web URL
+    var opened = false;
+    var timer = setTimeout(function() {
+      if (!opened) {
+        document.body.removeChild(iframe);
+        // Try second scheme
+        var iframe2 = document.createElement('iframe');
+        iframe2.style.display = 'none';
+        iframe2.src = schemes[1];
+        document.body.appendChild(iframe2);
+
+        setTimeout(function() {
+          document.body.removeChild(iframe2);
+          // Final fallback: navigate to web URL in same tab
+          window.location.href = webUrl;
+        }, 1000);
+      }
+    }, 1500);
+
+    // Detect if page becomes hidden (app opened)
+    document.addEventListener('visibilitychange', function handler() {
+      if (document.hidden) {
+        opened = true;
+        clearTimeout(timer);
+        try { document.body.removeChild(iframe); } catch(e) {}
+        document.removeEventListener('visibilitychange', handler);
+      }
+    });
+  } else {
+    // Desktop: just navigate to web URL
+    window.location.href = webUrl;
+  }
+}
 </script>
 </body>
 </html>
