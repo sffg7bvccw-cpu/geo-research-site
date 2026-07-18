@@ -1514,10 +1514,145 @@ button { border: none; cursor: pointer; font-family: inherit; }
   position: relative;
   z-index: 1;
 }
+
+/* WeChat Guide Overlay */
+.wechat-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+.wechat-overlay.active {
+  display: flex;
+}
+.wechat-guide {
+  background: #fff;
+  border-radius: 20px;
+  padding: 32px 24px;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+.wechat-guide-arrow {
+  position: absolute;
+  top: -60px;
+  right: 20px;
+  font-size: 48px;
+  animation: bounce-arrow 1s ease-in-out infinite;
+  color: #fff;
+}
+@keyframes bounce-arrow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.wechat-guide-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #1a1a2e;
+  margin-bottom: 8px;
+}
+.wechat-guide-desc {
+  font-size: 14px;
+  color: #64748b;
+  margin-bottom: 24px;
+  line-height: 1.7;
+}
+.wechat-steps {
+  text-align: left;
+  margin-bottom: 24px;
+}
+.wechat-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  font-size: 15px;
+  color: #333;
+}
+.wechat-step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #4F46E5, #7C3AED);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.wechat-copy-btn {
+  width: 100%;
+  padding: 14px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #4F46E5, #7C3AED);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  margin-bottom: 12px;
+  transition: transform 0.2s;
+}
+.wechat-copy-btn:active {
+  transform: scale(0.97);
+}
+.wechat-copy-btn.copied {
+  background: #22c55e;
+}
+.wechat-close-btn {
+  background: none;
+  border: none;
+  color: #94a3b8;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 8px;
+}
+.wechat-tip {
+  font-size: 12px;
+  color: #94a3b8;
+  margin-top: 8px;
+}
 </style>
 <noscript><style>.fade-up{opacity:1!important;transform:none!important}.result-bar-fill{width:auto!important}.demo-response{opacity:1!important}</style></noscript>
 </head>
 <body>
+
+<!-- WeChat Guide Overlay -->
+<div class="wechat-overlay" id="wechatOverlay">
+  <div class="wechat-guide">
+    <div class="wechat-guide-arrow">↑</div>
+    <div class="wechat-guide-title">在浏览器中打开</div>
+    <div class="wechat-guide-desc">微信内置浏览器无法直接跳转抖音<br>请按以下步骤操作</div>
+    <div class="wechat-steps">
+      <div class="wechat-step">
+        <span class="wechat-step-num">1</span>
+        <span>点击右上角 <strong>···</strong></span>
+      </div>
+      <div class="wechat-step">
+        <span class="wechat-step-num">2</span>
+        <span>选择「<strong>在浏览器中打开</strong>」</span>
+      </div>
+      <div class="wechat-step">
+        <span class="wechat-step-num">3</span>
+        <span>页面会自动跳转到抖音</span>
+      </div>
+    </div>
+    <button class="wechat-copy-btn" id="wechatCopyBtn" onclick="copyDouyinLink()">
+      一键复制抖音链接
+    </button>
+    <div class="wechat-tip" id="wechatTip">复制链接后，在浏览器中粘贴即可打开</div>
+    <button class="wechat-close-btn" onclick="closeWechatGuide()">关闭</button>
+  </div>
+</div>
 
 <!-- Skip Link -->
 <a href="#demo" class="skip-link">跳转到主要内容</a>
@@ -2877,32 +3012,37 @@ window.addEventListener('load', function() {
   });
 })();
 
-// Open Douyin app - try deep link first, fallback to web URL
+// Open Douyin - detect WeChat and show guide if needed
 function openDouyin() {
   var secUid = 'MS4wLjABAAAAPmZvu728CXqTHpisAlq6VOlldADuMwR65RjfRjOrRR8';
   var webUrl = 'https://v.douyin.com/eHSYkew1FaI/';
-  var isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  var ua = navigator.userAgent.toLowerCase();
+  var isWeChat = ua.indexOf('micromessenger') !== -1;
+  var isMobile = /iphone|ipad|ipod|android/i.test(ua);
 
+  // WeChat browser: show guide overlay
+  if (isWeChat) {
+    document.getElementById('wechatOverlay').classList.add('active');
+    return;
+  }
+
+  // Mobile browser (not WeChat): try deep link
   if (isMobile) {
-    // Try Douyin app deep link schemes
     var schemes = [
       'snssdk1128://user/profile/' + secUid,
       'aweme://user/profile/' + secUid,
       'bytedance://user/profile/' + secUid
     ];
 
-    // Create hidden iframe to try deep link
     var iframe = document.createElement('iframe');
     iframe.style.display = 'none';
     iframe.src = schemes[0];
     document.body.appendChild(iframe);
 
-    // Set timeout: if app doesn't open in 1.5s, try web URL
     var opened = false;
     var timer = setTimeout(function() {
       if (!opened) {
         document.body.removeChild(iframe);
-        // Try second scheme
         var iframe2 = document.createElement('iframe');
         iframe2.style.display = 'none';
         iframe2.src = schemes[1];
@@ -2910,13 +3050,11 @@ function openDouyin() {
 
         setTimeout(function() {
           document.body.removeChild(iframe2);
-          // Final fallback: navigate to web URL in same tab
           window.location.href = webUrl;
         }, 1000);
       }
     }, 1500);
 
-    // Detect if page becomes hidden (app opened)
     document.addEventListener('visibilitychange', function handler() {
       if (document.hidden) {
         opened = true;
@@ -2926,9 +3064,48 @@ function openDouyin() {
       }
     });
   } else {
-    // Desktop: just navigate to web URL
+    // Desktop
     window.location.href = webUrl;
   }
+}
+
+// Copy Douyin link to clipboard (for WeChat users)
+function copyDouyinLink() {
+  var url = 'https://v.douyin.com/eHSYkew1FaI/';
+  var btn = document.getElementById('wechatCopyBtn');
+  var tip = document.getElementById('wechatTip');
+
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(url).then(function() {
+      btn.textContent = '已复制!';
+      btn.classList.add('copied');
+      tip.textContent = '已复制到剪贴板!现在请在浏览器中粘贴打开';
+      setTimeout(function() {
+        btn.textContent = '一键复制抖音链接';
+        btn.classList.remove('copied');
+      }, 3000);
+    });
+  } else {
+    // Fallback for older browsers
+    var input = document.createElement('input');
+    input.value = url;
+    document.body.appendChild(input);
+    input.select();
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    btn.textContent = '已复制!';
+    btn.classList.add('copied');
+    tip.textContent = '已复制到剪贴板!现在请在浏览器中粘贴打开';
+    setTimeout(function() {
+      btn.textContent = '一键复制抖音链接';
+      btn.classList.remove('copied');
+    }, 3000);
+  }
+}
+
+// Close WeChat guide
+function closeWechatGuide() {
+  document.getElementById('wechatOverlay').classList.remove('active');
 }
 </script>
 </body>
